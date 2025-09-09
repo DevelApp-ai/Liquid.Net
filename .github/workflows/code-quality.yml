@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [ main, develop ]
 
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+  pull-requests: read
+
 env:
   DOTNET_VERSION: '8.0.x'
   DOTNET_NOLOGO: true
@@ -14,6 +20,40 @@ env:
 jobs:
   analyze:
     name: Code Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+      pull-requests: read
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: csharp
+        
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build solution
+      run: dotnet build --no-restore --configuration Release
+      
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+      with:
+        category: "/language:csharp"
+
+  format-check:
+    name: Format Check
     runs-on: ubuntu-latest
     
     steps:
@@ -28,28 +68,13 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
       
-    - name: Build solution
-      run: dotnet build --no-restore --configuration Release
-      
-    - name: Run static analysis
+    - name: Run format check
       run: |
-        # Install code analysis tools
+        # Install dotnet-format tool
         dotnet tool install --global dotnet-format
-        dotnet tool install --global security-scan
         
         # Run format check
         dotnet format --verify-no-changes --verbosity diagnostic
-        
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
-      with:
-        languages: csharp
-        
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v3
-      
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
 
   dependency-check:
     name: Security Scan
