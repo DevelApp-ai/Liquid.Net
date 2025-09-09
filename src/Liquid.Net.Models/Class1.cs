@@ -41,9 +41,9 @@ public class BasicNeuron : INeuron
         Potential *= decay;
 
         // Sum input currents from synapses
-        var inputCurrent = _inputSynapses.Sum(synapse => 
+        var inputCurrent = _inputSynapses.Sum(synapse =>
             synapse.PresynapticNeuron.IsActive ? synapse.Weight : 0.0);
-        
+
         // Integrate current into membrane potential
         Potential += inputCurrent * deltaTime;
 
@@ -69,7 +69,7 @@ public class BasicNeuron : INeuron
     {
         if (synapse.PostsynapticNeuron != this)
             throw new ArgumentException("Synapse postsynaptic neuron must be this neuron");
-        
+
         _inputSynapses.Add(synapse);
     }
 
@@ -77,7 +77,7 @@ public class BasicNeuron : INeuron
     {
         if (synapse.PresynapticNeuron != this)
             throw new ArgumentException("Synapse presynaptic neuron must be this neuron");
-        
+
         _outputSynapses.Add(synapse);
     }
 }

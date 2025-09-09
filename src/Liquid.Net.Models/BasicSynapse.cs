@@ -41,10 +41,10 @@ public class BasicSynapse : ISynapse
     public void Transmit(double signal, double deltaTime)
     {
         LastTransmission = deltaTime;
-        
+
         // Simple transmission: multiply signal by weight
         var transmittedSignal = signal * Weight;
-        
+
         // In a full implementation, this would be queued with delay
         // For now, we just record the transmission
     }
@@ -52,7 +52,7 @@ public class BasicSynapse : ISynapse
     public void UpdateWeight(double deltaWeight)
     {
         Weight += deltaWeight;
-        
+
         // Clamp weight within bounds
         Weight = Math.Max(MinWeight, Math.Min(MaxWeight, Weight));
     }
