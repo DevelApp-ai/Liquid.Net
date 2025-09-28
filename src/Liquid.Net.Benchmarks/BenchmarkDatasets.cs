@@ -10,8 +10,8 @@ public class BenchmarkDataset
 {
     public string Name { get; init; } = string.Empty;
     public string Description { get; init; } = string.Empty;
-    public double[,] Inputs { get; init; } = new double[0,0];
-    public double[,] Targets { get; init; } = new double[0,0];
+    public double[,] Inputs { get; init; } = new double[0, 0];
+    public double[,] Targets { get; init; } = new double[0, 0];
     public int SequenceLength { get; init; }
     public int InputDimension { get; init; }
     public int OutputDimension { get; init; }
@@ -32,7 +32,7 @@ public static class StandardDatasets
         var data = new double[length];
         var x = 1.2; // Initial condition
         var dt = 0.1;
-        
+
         for (int i = 0; i < length; i++)
         {
             var delayed = i < (int)(tau / dt) ? 0.1 : data[i - (int)(tau / dt)];
@@ -40,13 +40,13 @@ public static class StandardDatasets
             x += dt * dx;
             data[i] = x;
         }
-        
+
         // Create input-output pairs for sequence prediction
         int sequenceLength = 20;
         int samples = length - sequenceLength - 1;
         var inputs = new double[samples, sequenceLength];
         var targets = new double[samples, 1];
-        
+
         for (int i = 0; i < samples; i++)
         {
             for (int j = 0; j < sequenceLength; j++)
@@ -55,7 +55,7 @@ public static class StandardDatasets
             }
             targets[i, 0] = data[i + sequenceLength];
         }
-        
+
         return new BenchmarkDataset
         {
             Name = "Mackey-Glass",
@@ -68,7 +68,7 @@ public static class StandardDatasets
             Source = "Mackey, M. C. & Glass, L. (1977). Oscillation and chaos in physiological control systems"
         };
     }
-    
+
     /// <summary>
     /// Generate synthetic sine wave data for continuous learning
     /// </summary>
@@ -76,19 +76,19 @@ public static class StandardDatasets
     {
         var random = new Random(42); // Fixed seed for reproducibility
         var data = new double[length];
-        
+
         for (int i = 0; i < length; i++)
         {
             var t = i * 0.1;
             data[i] = amplitude * Math.Sin(2 * Math.PI * frequency * t) + noise * (random.NextDouble() - 0.5);
         }
-        
+
         // Create input-output pairs
         int sequenceLength = 10;
         int samples = length - sequenceLength - 1;
         var inputs = new double[samples, sequenceLength];
         var targets = new double[samples, 1];
-        
+
         for (int i = 0; i < samples; i++)
         {
             for (int j = 0; j < sequenceLength; j++)
@@ -97,7 +97,7 @@ public static class StandardDatasets
             }
             targets[i, 0] = data[i + sequenceLength];
         }
-        
+
         return new BenchmarkDataset
         {
             Name = "Sine Wave",
@@ -110,37 +110,37 @@ public static class StandardDatasets
             Source = "Synthetic"
         };
     }
-    
+
     /// <summary>
     /// Generate Lorenz attractor data for complex dynamical system modeling
     /// </summary>
-    public static BenchmarkDataset GenerateLorenzAttractor(int length = 2000, double sigma = 10.0, double rho = 28.0, double beta = 8.0/3.0)
+    public static BenchmarkDataset GenerateLorenzAttractor(int length = 2000, double sigma = 10.0, double rho = 28.0, double beta = 8.0 / 3.0)
     {
         var data = new double[length, 3]; // x, y, z coordinates
         var x = 1.0; var y = 1.0; var z = 1.0; // Initial conditions
         var dt = 0.01;
-        
+
         for (int i = 0; i < length; i++)
         {
             var dx = sigma * (y - x);
             var dy = x * (rho - z) - y;
             var dz = x * y - beta * z;
-            
+
             x += dt * dx;
             y += dt * dy;
             z += dt * dz;
-            
+
             data[i, 0] = x;
             data[i, 1] = y;
             data[i, 2] = z;
         }
-        
+
         // Create sequence prediction task
         int sequenceLength = 15;
         int samples = length - sequenceLength - 1;
         var inputs = new double[samples, sequenceLength * 3]; // Flattened xyz sequences
         var targets = new double[samples, 3]; // Next xyz coordinates
-        
+
         for (int i = 0; i < samples; i++)
         {
             for (int j = 0; j < sequenceLength; j++)
@@ -153,7 +153,7 @@ public static class StandardDatasets
             targets[i, 1] = data[i + sequenceLength, 1];
             targets[i, 2] = data[i + sequenceLength, 2];
         }
-        
+
         return new BenchmarkDataset
         {
             Name = "Lorenz Attractor",
@@ -166,7 +166,7 @@ public static class StandardDatasets
             Source = "Lorenz, E. N. (1963). Deterministic nonperiodic flow"
         };
     }
-    
+
     /// <summary>
     /// Get all standard benchmark datasets
     /// </summary>

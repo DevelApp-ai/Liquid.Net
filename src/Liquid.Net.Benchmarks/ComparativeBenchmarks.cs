@@ -46,13 +46,13 @@ public class ComparativeBenchmarkSuite
 
             // Test each algorithm
             var algorithms = GetBaselineAlgorithms();
-            
+
             foreach (var algorithm in algorithms)
             {
                 Console.WriteLine($"  Testing {algorithm}...");
                 var result = await EvaluateAlgorithm(algorithm, dataset);
                 results.Add(result);
-                
+
                 Console.WriteLine($"    Accuracy (1-NRMSE): {result.Accuracy:F4}");
                 Console.WriteLine($"    Training Time: {result.TrainingTime:F2}ms");
                 Console.WriteLine($"    Memory Efficiency: {result.MemoryEfficiency:F2}MB");
@@ -84,9 +84,9 @@ public class ComparativeBenchmarkSuite
         // Simulate different algorithm performances based on typical results
         // from LNN research papers. In a real implementation, these would be
         // actual algorithm implementations.
-        
+
         var random = new Random(algorithm.GetHashCode() + dataset.Name.GetHashCode());
-        
+
         // Generate realistic performance metrics based on algorithm characteristics
         var performanceMetrics = algorithm switch
         {
@@ -206,13 +206,13 @@ public class ComparativeBenchmarkSuite
 
             Console.WriteLine();
             Console.WriteLine($"Best performing: {bestResult.Algorithm} (Accuracy: {bestResult.Accuracy:F4})");
-            
+
             if (lnnResults.Any())
             {
                 var bestLnn = lnnResults.OrderByDescending(r => r.Accuracy).First();
                 var avgTraditional = sortedResults.Where(r => !r.Algorithm.StartsWith("Liquid-NN"))
                     .Average(r => r.Accuracy);
-                
+
                 Console.WriteLine($"Best LNN: {bestLnn.Algorithm} (Accuracy: {bestLnn.Accuracy:F4})");
                 Console.WriteLine($"LNN vs Traditional avg: {bestLnn.Accuracy:F4} vs {avgTraditional:F4} " +
                     $"({((bestLnn.Accuracy / avgTraditional - 1) * 100):+F1}%)");
@@ -234,10 +234,10 @@ public class ComparativeBenchmarkSuite
 
             var lnnWins = results.GroupBy(r => r.Dataset)
                 .Count(g => g.OrderByDescending(r => r.Accuracy).First().Algorithm.StartsWith("Liquid-NN"));
-            
+
             Console.WriteLine($"LNN wins: {lnnWins}/{results.GroupBy(r => r.Dataset).Count()} datasets");
         }
-        
+
         Console.WriteLine();
         Console.WriteLine("Note: These results demonstrate the comparative performance of");
         Console.WriteLine("Liquid Neural Networks against traditional approaches on the");

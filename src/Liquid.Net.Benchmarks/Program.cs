@@ -16,7 +16,7 @@ internal class Program
         Console.WriteLine("==========================");
         Console.WriteLine("Comprehensive evaluation against original LNN test corpus");
         Console.WriteLine();
-        
+
         if (args.Length > 0 && args[0].ToLower() == "micro")
         {
             // Run micro-benchmarks using BenchmarkDotNet
@@ -36,7 +36,7 @@ internal class Program
             Console.WriteLine("- Hasani et al. 'Liquid Time-constant Networks' (2020)");
             Console.WriteLine("- Lechner et al. 'Neural Circuit Policies' (2020)");
             Console.WriteLine();
-            
+
             var comparativeSuite = new ComparativeBenchmarkSuite();
             await comparativeSuite.RunComparativeEvaluation();
         }
@@ -56,7 +56,7 @@ internal class Program
     {
         Console.WriteLine("Available benchmark datasets from original LNN research:");
         Console.WriteLine();
-        
+
         foreach (var dataset in StandardDatasets.GetAllDatasets())
         {
             Console.WriteLine($"Dataset: {dataset.Name}");
@@ -68,7 +68,7 @@ internal class Program
             Console.WriteLine($"  Source: {dataset.Source}");
             Console.WriteLine();
         }
-        
+
         Console.WriteLine("These datasets represent the standard test corpus used to evaluate");
         Console.WriteLine("Liquid Neural Networks in academic research and publications.");
     }
@@ -88,13 +88,13 @@ internal class Program
         Console.WriteLine("✓ Continuous learning and adaptation");
         Console.WriteLine("✓ Memory efficiency and computational performance");
         Console.WriteLine();
-        
+
         var runner = new LiquidNetBenchmarkRunner();
         var results = await runner.RunComprehensiveBenchmarks();
-        
+
         Console.WriteLine("Standard benchmarking completed!");
         DisplayUsageOptions();
-        
+
         Console.WriteLine("Results Summary:");
         Console.WriteLine($"- Total benchmark runs: {results.Count}");
         Console.WriteLine($"- Average MSE across all tests: {results.Average(r => r.MeanSquaredError):F6}");
@@ -111,19 +111,19 @@ internal class Program
         Console.WriteLine("Running complete benchmark suite...");
         Console.WriteLine("This includes both standard corpus evaluation and comparative analysis.");
         Console.WriteLine();
-        
+
         // Run standard benchmarks
         var runner = new LiquidNetBenchmarkRunner();
         var standardResults = await runner.RunComprehensiveBenchmarks();
-        
+
         Console.WriteLine();
         Console.WriteLine("=" + new string('=', 60));
         Console.WriteLine();
-        
+
         // Run comparative benchmarks
         var comparativeSuite = new ComparativeBenchmarkSuite();
         var comparativeResults = await comparativeSuite.RunComparativeEvaluation();
-        
+
         Console.WriteLine();
         Console.WriteLine("=== COMPLETE BENCHMARK SUITE SUMMARY ===");
         Console.WriteLine($"Standard benchmarks completed: {standardResults.Count} tests");
