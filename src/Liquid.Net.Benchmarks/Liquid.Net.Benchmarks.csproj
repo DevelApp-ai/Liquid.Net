@@ -7,4 +7,17 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
+    <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
+    <PackageReference Include="CsvHelper" Version="30.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Liquid.Net.Core\Liquid.Net.Core.csproj" />
+    <ProjectReference Include="..\Liquid.Net.Models\Liquid.Net.Models.csproj" />
+    <ProjectReference Include="..\Liquid.Net.Training\Liquid.Net.Training.csproj" />
+    <ProjectReference Include="..\Liquid.Net.Utilities\Liquid.Net.Utilities.csproj" />
+  </ItemGroup>
+
 </Project>

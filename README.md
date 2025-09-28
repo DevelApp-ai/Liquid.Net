@@ -89,6 +89,33 @@ for (int step = 0; step < 100; step++)
 }
 ```
 
+## Benchmarking
+
+The Liquid.Net framework includes comprehensive benchmarking capabilities against the original LNN test corpus used in academic research:
+
+```bash
+# Run standard LNN corpus benchmarks
+dotnet run --project src/Liquid.Net.Benchmarks
+
+# Run comparative analysis vs traditional neural networks
+dotnet run --project src/Liquid.Net.Benchmarks comparative
+
+# Run micro-benchmarks with BenchmarkDotNet
+dotnet run --project src/Liquid.Net.Benchmarks micro
+
+# Show available benchmark datasets
+dotnet run --project src/Liquid.Net.Benchmarks datasets
+```
+
+### Standard Test Corpus
+
+- **Mackey-Glass**: Chaotic time series prediction
+- **Sine Wave**: Continuous learning evaluation  
+- **Lorenz Attractor**: Complex dynamical system modeling
+
+These datasets represent the standard benchmarks used to evaluate Liquid Neural Networks in academic research, ensuring direct performance comparison with published results.
+```
+
 ## Requirements
 
 - .NET 8.0 or later
