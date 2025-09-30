@@ -91,7 +91,16 @@ for (int step = 0; step < 100; step++)
 
 ## Benchmarking
 
-The Liquid.Net framework includes comprehensive benchmarking capabilities against the original LNN test corpus used in academic research:
+The Liquid.Net framework includes comprehensive benchmarking capabilities against the original LNN test corpus used in academic research.
+
+### Quick CI Tests (for pipelines)
+
+```bash
+# Run quick infrastructure tests
+dotnet run --project src/Liquid.Net.Benchmarks ci
+```
+
+### Full Benchmarks (for local evaluation)
 
 ```bash
 # Run standard LNN corpus benchmarks
@@ -105,7 +114,14 @@ dotnet run --project src/Liquid.Net.Benchmarks micro
 
 # Show available benchmark datasets
 dotnet run --project src/Liquid.Net.Benchmarks datasets
+
+# Run complete benchmark suite
+dotnet run --project src/Liquid.Net.Benchmarks all
 ```
+
+### Windows 11 Setup Guide
+
+For detailed instructions on running comprehensive benchmarks on Windows 11, including hardware requirements, performance tips, and result interpretation, see the **[Benchmarking Guide](BENCHMARKING.md)**.
 
 ### Standard Test Corpus
 
@@ -114,6 +130,8 @@ dotnet run --project src/Liquid.Net.Benchmarks datasets
 - **Lorenz Attractor**: Complex dynamical system modeling
 
 These datasets represent the standard benchmarks used to evaluate Liquid Neural Networks in academic research, ensuring direct performance comparison with published results.
+
+> **Note**: The CI/CD pipeline runs only quick tests (`ci` mode) to verify functionality. Full benchmarks should be run locally for comprehensive evaluation as they can take 30-90 minutes depending on your hardware.
 ```
 
 ## Requirements

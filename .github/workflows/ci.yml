@@ -108,26 +108,16 @@ jobs:
     - name: Build solution
       run: dotnet build --no-restore --configuration Release
       
-    - name: Run LNN corpus benchmarks
+    - name: Run benchmark infrastructure tests
       run: |
-        echo "Running comprehensive LNN corpus benchmarks..."
-        dotnet run --project src/Liquid.Net.Benchmarks/Liquid.Net.Benchmarks.csproj --configuration Release
-        
-    - name: Run comparative benchmarks
-      run: |
-        echo "Running comparative analysis against baseline algorithms..."
-        dotnet run --project src/Liquid.Net.Benchmarks/Liquid.Net.Benchmarks.csproj --configuration Release comparative
-        
-    - name: Run micro-benchmarks
-      run: |
-        echo "Running BenchmarkDotNet micro-benchmarks..."
-        dotnet run --project src/Liquid.Net.Benchmarks/Liquid.Net.Benchmarks.csproj --configuration Release micro || echo "Micro-benchmarks completed"
+        echo "Testing benchmark infrastructure with small samples..."
+        dotnet run --project src/Liquid.Net.Benchmarks/Liquid.Net.Benchmarks.csproj --configuration Release ci
       
-    - name: Upload benchmark results
+    - name: Upload test results
       uses: actions/upload-artifact@v4
       with:
-        name: benchmark-results
+        name: benchmark-test-results
         path: |
-          BenchmarkDotNet.Artifacts/
-          benchmark-*.txt
+          *.log
+          test-results/
         if-no-files-found: ignore
