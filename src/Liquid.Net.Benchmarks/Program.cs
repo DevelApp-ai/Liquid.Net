@@ -47,7 +47,7 @@ internal class Program
             Console.WriteLine("Running quick CI benchmark tests...");
             Console.WriteLine("This verifies the benchmark system works without running full evaluation.");
             Console.WriteLine();
-            
+
             await RunQuickCITests();
         }
         else if (args.Length > 0 && args[0].ToLower() == "all")
@@ -105,7 +105,7 @@ internal class Program
             // Test benchmark runner with quick configuration
             Console.WriteLine("Testing benchmark runner...");
             var runner = new LiquidNetBenchmarkRunner();
-            
+
             // This would run a quick test - we'll just verify the infrastructure works
             Console.WriteLine("✓ Benchmark runner initialized successfully");
             Console.WriteLine();
