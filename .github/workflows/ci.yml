@@ -75,7 +75,7 @@ jobs:
         dotnet pack src/Liquid.Net.Utilities/Liquid.Net.Utilities.csproj --no-build --configuration Release --output ./packages
         
     - name: Upload NuGet packages as artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: nuget-packages
         path: ./packages/*.nupkg
@@ -114,7 +114,7 @@ jobs:
         dotnet run --project src/Liquid.Net.Benchmarks/Liquid.Net.Benchmarks.csproj --configuration Release ci
       
     - name: Upload test results
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: benchmark-test-results
         path: |
