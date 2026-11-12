@@ -82,10 +82,20 @@ jobs:
       
     - name: Create NuGet packages
       run: |
-        dotnet pack src/Liquid.Net.Core/Liquid.Net.Core.csproj --no-build --configuration Release --output ./packages
-        dotnet pack src/Liquid.Net.Models/Liquid.Net.Models.csproj --no-build --configuration Release --output ./packages
-        dotnet pack src/Liquid.Net.Training/Liquid.Net.Training.csproj --no-build --configuration Release --output ./packages
-        dotnet pack src/Liquid.Net.Utilities/Liquid.Net.Utilities.csproj --no-build --configuration Release --output ./packages
+        # The csprojs carry no <Version>, so the package version is wired
+        # from the release tag (v1.2.3 -> 1.2.3). Without this every pack
+        # would emit 1.0.0.
+        PACKAGE_VERSION="${{ github.event.release.tag_name }}"
+        PACKAGE_VERSION="${PACKAGE_VERSION#v}"
+        if [ -z "$PACKAGE_VERSION" ]; then
+          echo "::error::Could not derive the package version from the release tag."
+          exit 1
+        fi
+        echo "Packing with version $PACKAGE_VERSION"
+        dotnet pack src/Liquid.Net.Core/Liquid.Net.Core.csproj --no-build --configuration Release --output ./packages -p:PackageVersion="$PACKAGE_VERSION"
+        dotnet pack src/Liquid.Net.Models/Liquid.Net.Models.csproj --no-build --configuration Release --output ./packages -p:PackageVersion="$PACKAGE_VERSION"
+        dotnet pack src/Liquid.Net.Training/Liquid.Net.Training.csproj --no-build --configuration Release --output ./packages -p:PackageVersion="$PACKAGE_VERSION"
+        dotnet pack src/Liquid.Net.Utilities/Liquid.Net.Utilities.csproj --no-build --configuration Release --output ./packages -p:PackageVersion="$PACKAGE_VERSION"
         
     - name: Upload NuGet packages as artifacts
       uses: actions/upload-artifact@v7
